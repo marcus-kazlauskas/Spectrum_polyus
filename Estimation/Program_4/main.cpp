@@ -15,14 +15,14 @@ using namespace std;
 int main(int argc, const char * argv[]) {
 //    A*(H*L)^N*H*G
     
-    matrix2 High, Low, Matrix;
-    double teta1 = pi/6;
+    matrix2 High, Low, Matrix;      // матрица слоя с высоким показателем преломления (n2), с низким показателем преломления (n3), многослойника
+    double teta1 = pi/6;            // угод падения луча
  //    double teta1 = pi/4;
-    double ng = 1.457;
+    double ng = 1.457;              // показатель преломления подложки из кварца
 //    double ng = 1.457;
-    double n2 = 2.4;
+    double n2 = 2.4;                // показатель преломления TiO2
 //    double n2 = 2.3;
-    double n3 = 1.457;
+    double n3 = 1.457;              // показатель преломления кварца
 //    double n3 = 1.39;
     int i = 0;
     int j = 0;
@@ -40,6 +40,7 @@ int main(int argc, const char * argv[]) {
     Matrix.refTM(Matrix, ng, teta1);
     Matrix.RTM = mod_2(Matrix.rTM);
 
+    // вывод коэф. пропускания для TE- и TM-поляризаций при N=0
     cout << 1-Matrix.RTE << " " << 1-Matrix.RTM << endl;
     
     while (1-Matrix.RTM > 0.002) {
@@ -57,7 +58,7 @@ int main(int argc, const char * argv[]) {
         Matrix.RTE = mod_2(Matrix.rTE);
     }
 
-    
+    // вывод коэф. пропускания и N для TE- и TM-поляризаций
     cout << 1-Matrix.RTE << " " << i << " " << 1-Matrix.RTM << " " << j << endl;
     
     return 0;

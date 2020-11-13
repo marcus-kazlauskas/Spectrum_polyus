@@ -24,29 +24,29 @@ MainWindow::MainWindow(QWidget *parent) :
     QString str;
     matrix2 High, Low, Matrix;
 
-    double teta1 = pi/6;
+    double teta1 = pi/6;            // угол падения луча
 //    double teta1 = pi/4;
-    double ng = 1.457;
-    double n2 = 2.4;
+    double ng = 1.457;              // показатель преломления подложки из кварца
+    double n2 = 2.4;                // показатель преломления TiO2
 //    double n2 = 2.3;
-    double n3 = 1.457;
+    double n3 = 1.457;              // показатель преломления кварца
 //    double n3 = 1.39;
-    double lambda = 632;
-    double lambdaI = 400;
-    double lambdaF = 900;
+    double lambda = 632;            // длина волны луча
+    double lambdaI = 400;           // длина волны начала спектра
+    double lambdaF = 900;           // длина волны конца спектра
     double l = lambdaI;
     double TTM, TTE;
-    int N = 8;
+    int N = 8;                      // число пар слоёв в периодической структуре зеркала
 //    int N = 15;
 
-    double scaleX = 3;
+    double scaleX = 3;              // параметры осей координат
     double scaleY = 800;
     double gap = 10;
 
     ui->graphicsView->setRenderHint(QPainter::Antialiasing, true);
     QGraphicsTextItem *textItem = new QGraphicsTextItem;
 
-    graph->addLine(lambda*scaleX, 0, lambda*scaleX, -scaleY, pen2);
+    graph->addLine(lambda*scaleX, 0, lambda*scaleX, -scaleY, pen2);                         // отрисовка осей координат
     str = QString("%1").arg(lambda);
     textItem = graph->addText(str);
     textItem->setPos(lambda*scaleX-gap, 0.5*gap);
@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
         textItem = graph->addText(str);
         textItem->setPos((lambdaI+i*50)*scaleX-gap, 0.5*gap);
     }
-    //------------------------------
+    //------------------------------        // получение коэф. пропускания для начала спектра
     High.setTM(n2, teta1, lambda, l);
     Low.setTM(n3, teta1, lambda, l);
     Matrix.mulM(High.mM);
@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //----------------
     l += 0.1;
 
-    while(l <= lambdaF){
+    while(l <= lambdaF){                    // вычисление коэф. пропускания до конца спектра для обеих поляризаций с отрисовкой графика
         Matrix.mM[0][0].real(1);
         Matrix.mM[0][1].real(0);
         Matrix.mM[1][0].real(0);
@@ -147,7 +147,7 @@ MainWindow::MainWindow(QWidget *parent) :
         l += 0.1;
     }
 
-    cout << Matrix.RTM << endl;
+//    cout << Matrix.RTM << endl;
 
     ui->graphicsView->setScene(graph);
 }
